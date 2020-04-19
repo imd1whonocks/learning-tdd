@@ -1,3 +1,9 @@
+An attempt to learn principles of Test Driven Development(TDD) and apply it a React project.
+
+Tutorial followed: <https://outsidein.dev/>
+
+An app for tracking reviews of dishes at different restaurants.
+Production: <https://elated-jennings-5a70fb.netlify.com>
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
