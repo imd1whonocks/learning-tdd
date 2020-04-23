@@ -13,6 +13,7 @@ describe('Listing of Restaurants', () => {
 				{id: 2, name: pizza},
 			],
 		});
+		cy.visit('/');
 		cy.contains(sushi);
 		cy.contains(pizza);
 	});
