@@ -9,6 +9,13 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install Dependencies
         run: npm install
+      - name: Send Message for Unit test
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Unit Test for ${{ github.GITHUB_REPOSITORY }} is triggered.
       - name: Unit Tests
         run: npm test --watchAll=false
       - name: E2E Tests
