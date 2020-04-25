@@ -5,23 +5,34 @@ import {loadRestaurants} from '../restaurants/actions';
 
 describe('restaurants', () => {
 	describe('initially', () => {
+		let store;
+		beforeEach(() => {
+			store = createStore(restaurantsReducer, applyMiddleware(thunk));
+		});
 		it('does not have the loading flag set', () => {
-			const store = createStore(restaurantsReducer, applyMiddleware(thunk));
-
 			expect(store.getState().loading).toEqual(false);
+		});
+		it('does not have any error', () => {
+			expect(store.getState().error).toEqual('');
 		});
 	});
 	describe('while loading', () => {
-		it('sets loading flag', () => {
+		let store;
+		beforeEach(() => {
 			const api = {
 				loadRestaurants: () => new Promise(() => {}),
 			};
-			const store = createStore(
+			store = createStore(
 				restaurantsReducer,
 				applyMiddleware(thunk.withExtraArgument(api)),
 			);
 			store.dispatch(loadRestaurants());
+		});
+		it('sets loading flag', () => {
 			expect(store.getState().loading).toEqual(true);
+		});
+		it('clears the error flag', () => {
+			expect(store.getState().error).toEqual('');
 		});
 	});
 	describe('when loading succeeds', () => {
@@ -45,6 +56,29 @@ describe('restaurants', () => {
 		});
 		it('clears the loading flag', () => {
 			expect(store.getState().loading).toEqual(false);
+		});
+		it('should not show any error', () => {
+			expect(store.getState().error).toEqual('');
+		});
+	});
+	describe('when loading fails', () => {
+		let store;
+		const error = 'Restaurants could not be loaded.';
+		beforeEach(() => {
+			const api = {
+				loadRestaurants: () => Promise.reject(error),
+			};
+			store = createStore(
+				restaurantsReducer,
+				applyMiddleware(thunk.withExtraArgument(api)),
+			);
+			return store.dispatch(loadRestaurants());
+		});
+		it('should stop loader', () => {
+			expect(store.getState().loading).toEqual(false);
+		});
+		it('should show error', () => {
+			expect(store.getState().error).toEqual(error);
 		});
 	});
 });

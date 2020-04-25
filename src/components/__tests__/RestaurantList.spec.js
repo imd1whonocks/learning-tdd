@@ -37,10 +37,23 @@ describe('Restaurant List', () => {
 			const {queryByTestId} = context;
 			expect(queryByTestId('loading-indicator')).toBeNull();
 		});
+		it('should not show error once data has loaded', () => {
+			const {queryByText} = context;
+			expect(queryByText('Restaurants could not be loaded.')).toBeNull();
+		});
 		it('displays the restaurants', () => {
 			const {queryByText} = context;
 			expect(queryByText('Sushi Place')).not.toBeNull();
 			expect(queryByText('Pizza Place')).not.toBeNull();
+		});
+	});
+	describe('when loading fails', () => {
+		beforeEach(() => {
+			renderWithProps({error: 'Restaurants could not be loaded.'});
+		});
+		it('should display a error message', () => {
+			const {queryByText} = context;
+			expect(queryByText('Restaurants could not be loaded.')).not.toBeNull();
 		});
 	});
 });

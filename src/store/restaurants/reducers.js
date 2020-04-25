@@ -1,9 +1,13 @@
-import {combineReducers} from 'redux';
-import {STORE_RESTAURANTS, START_LOADING} from './actions';
+import {
+	STORE_RESTAURANTS,
+	START_LOADING,
+	STORE_RESTAURANTS_FAILED,
+} from './actions';
 
 export const defaultState = {
 	records: [],
 	loading: false,
+	error: '',
 };
 
 function reducer(state = defaultState, action = {}) {
@@ -12,6 +16,7 @@ function reducer(state = defaultState, action = {}) {
 			return {
 				...state,
 				loading: true,
+				error: '',
 			};
 		}
 		case STORE_RESTAURANTS: {
@@ -19,6 +24,14 @@ function reducer(state = defaultState, action = {}) {
 				...state,
 				loading: false,
 				records: action.records,
+				error: '',
+			};
+		}
+		case STORE_RESTAURANTS_FAILED: {
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
 			};
 		}
 		default: {
