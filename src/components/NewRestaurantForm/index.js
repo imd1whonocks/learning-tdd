@@ -2,17 +2,25 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Alert from '@material-ui/lab/Alert';
 
 import {createRestaurant} from '../../store/restaurants/actions';
 
 export const NewRestaurantForm = ({createRestaurant}) => {
 	const handleSubmit = e => {
 		e.preventDefault();
-		createRestaurant(name).then(() => setName(''));
+		if (name === '') {
+			setShowValidationError(true);
+		} else {
+			setShowValidationError(false);
+			createRestaurant(name).then(() => setName(''));
+		}
 	};
 	const [name, setName] = useState('');
+	const [showValidationError, setShowValidationError] = useState(false);
 	return (
 		<form onSubmit={handleSubmit}>
+			{showValidationError && <Alert severity="error">Name is required</Alert>}
 			<TextField
 				value={name}
 				onChange={e => setName(e.target.value)}
