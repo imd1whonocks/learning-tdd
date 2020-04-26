@@ -2,6 +2,7 @@ import {
 	STORE_RESTAURANTS,
 	START_LOADING,
 	STORE_RESTAURANTS_FAILED,
+	ADD_RESTAURANT,
 } from './actions';
 
 export const defaultState = {
@@ -32,6 +33,13 @@ function reducer(state = defaultState, action = {}) {
 				...state,
 				loading: false,
 				error: action.payload,
+			};
+		}
+		case ADD_RESTAURANT: {
+			const arr = [...state.records, action.payload];
+			return {
+				...state,
+				records: arr,
 			};
 		}
 		default: {
