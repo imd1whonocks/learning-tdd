@@ -29,14 +29,9 @@ const storeRestaurantsFailed = error => ({
 });
 
 export const createRestaurant = name => (dispatch, getState, api) => {
-	return api
-		.createRestaurant(name)
-		.then(restaurant => {
-			dispatch(addRestaurant(restaurant));
-		})
-		.catch(err => {
-			console.error(err);
-		});
+	return api.createRestaurant(name).then(restaurant => {
+		dispatch(addRestaurant(restaurant));
+	});
 };
 const addRestaurant = restaurant => ({
 	type: ADD_RESTAURANT,

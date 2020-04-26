@@ -121,9 +121,12 @@ describe('restaurants', () => {
 				return expect(promise).resolves.toBeUndefined();
 			});
 		});
+		describe('when save fails', () => {
+			it('rejects', () => {
+				api.createRestaurant.mockRejectedValue();
+				promise = store.dispatch(createRestaurant(newRestaurantName));
+				return expect(promise).rejects.toBeUndefined();
+			});
+		});
 	});
 });
-
-// The form should clear out the text field after you save a restaurant.
-// If the form is submitted with an empty restaurant name, it should show a validation error, and not submit to the server.
-// If the save fails an error message should be shown, and the restaurant name should not be cleared.
